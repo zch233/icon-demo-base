@@ -2,6 +2,7 @@ import {series, parallel, src, dest} from 'gulp'; // series 是依次执行，pa
 import del from 'del';
 import {generalConfig} from "./plugins/svgo/presets";
 import {generateIcons} from "./utils/generateIcons";
+import {generateEntry} from "./utils/generateEntry";
 import {adjustViewBox, assignAttrsAtTag} from "./plugins/svg2Definition/transforms";
 import { readFileSync } from 'fs';
 import { resolve } from 'path';
@@ -40,5 +41,19 @@ exports.default = series(
       }),
       filename: ({ name }) => getIdentifier({ name, themeSuffix: (upperFirst(theme) as ThemeTypeUpperCase) })
     }))
+  ),
+  parallel(
+    // generate entry file: src/index.ts
+    generateEntry({
+      entryName: 'index.ts',
+      from: ['src/asn/*.ts'],
+      toDir: 'src',
+      banner: '// This index.ts file is generated automatically.\n',
+      template: `export { default as <%= identifier %> } from '<%= path %>';`,
+      mapToInterpolate: ({ name: identifier }) => ({
+        identifier,
+        path: `./asn/${identifier}`
+      })
+    }),
   )
 )
