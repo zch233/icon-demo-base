@@ -3,12 +3,13 @@ import del from 'del';
 import { generalConfig } from './plugins/svgo/presets';
 import { generateIcons } from './utils/generateIcons';
 import { generateEntry } from './utils/generateEntry';
-import { adjustViewBox, assignAttrsAtTag } from './plugins/svg2Definition/transforms';
+import {adjustViewBox, assignAttrsAtTag, setDefaultColorAtPathTag} from './plugins/svg2Definition/transforms';
 import { readFileSync } from 'fs';
 import { resolve } from 'path';
 import { getIdentifier, upperFirst } from './utils';
 import {IconDefinition, ThemeType, ThemeTypeUpperCase} from './templates/types';
 import {ExtractRegExp, generateInline} from "./utils/generateInline";
+import {twotoneStringify} from "./plugins/svg2Definition/stringify";
 
 const themes: ThemeType[] = ['filled', 'outlined', 'twotone', 'color'];
 
@@ -28,8 +29,10 @@ exports.default = series(
                 from: [`svg/${theme}/*.svg`],
                 toDir: 'src/asn',
                 svgoConfig: generalConfig,
-                extraNodeTransformFactories: [assignAttrsAtTag('svg', { focusable: 'false' }), adjustViewBox],
-                stringify: JSON.stringify,
+                extraNodeTransformFactories: [
+                  assignAttrsAtTag('svg', { focusable: 'false' }), adjustViewBox,
+                ].concat(theme === 'twotone' ? setDefaultColorAtPathTag('#333') : []),
+                stringify: theme === 'twotone' ? twotoneStringify : JSON.stringify,
                 template: iconTemplate,
                 mapToInterpolate: ({ name, content }) => ({
                     identifier: getIdentifier({ name, themeSuffix: upperFirst(theme) as ThemeTypeUpperCase }),
