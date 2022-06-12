@@ -1,9 +1,7 @@
-import { TransformFactory } from '../..';
-import { assignAttrsAtTag } from '..';
+import { TransformFactory } from '../../index';
+import { assignAttrsAtTag } from '../index';
 
-export const setDefaultColorAtPathTag: (
-  defaultColor: string
-) => TransformFactory = (defaultColor) =>
-  assignAttrsAtTag('path', ({ previousAttrs }) => ({
-    fill: previousAttrs.fill || defaultColor
-  }));
+export const setDefaultColorAtPathTag: (defaultColor: string) => TransformFactory = defaultColor =>
+    assignAttrsAtTag('path', ({ previousAttrs }) => ({
+        fill: previousAttrs.fill || defaultColor,
+    }));

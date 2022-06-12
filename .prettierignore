@@ -1,6 +1,4 @@
-templates/**/*.ejs
 **/*.svg
-package.json
 .umi
 .umi-production
 /dist
@@ -21,3 +19,5 @@ yarn-error.log
 .history
 assets
 **/*.min.js
+*.ejs
+.idea
