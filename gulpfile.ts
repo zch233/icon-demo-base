@@ -10,8 +10,16 @@ import { getIdentifier, upperFirst } from './utils';
 import {IconDefinition, ThemeType, ThemeTypeUpperCase} from './templates/types';
 import {ExtractRegExp, generateInline} from "./utils/generateInline";
 import {twotoneStringify} from "./plugins/svg2Definition/stringify";
+import { TransformFactory } from './plugins/svg2Definition';
 
 const themes: ThemeType[] = ['filled', 'outlined', 'twotone', 'color'];
+
+const themesMap: {theme: ThemeType, themeSuffix?: string, stringify?: (value: any) => string, extraNodeTransformFactories?: TransformFactory}[] = [
+  {theme: 'filled'},
+  {theme: 'outlined'},
+  {theme: 'twotone', themeSuffix: 'twoTone',stringify: twotoneStringify, extraNodeTransformFactories: setDefaultColorAtPathTag('#333')},
+  {theme: 'color'},
+]
 
 const iconTemplate = readFileSync(resolve(__dirname, './templates/icon.ts.ejs'), 'utf8');
 
@@ -23,7 +31,7 @@ exports.default = series(
         function CopyFiles() {
             return src(['templates/*.ts']).pipe(dest('src')); // from 'templates/*.ts' toDir 'src'
         },
-        ...themes.map(theme =>
+        ...themesMap.map(({theme, themeSuffix, stringify, extraNodeTransformFactories}) =>
             generateIcons({
                 theme,
                 from: [`svg/${theme}/*.svg`],
@@ -31,14 +39,14 @@ exports.default = series(
                 svgoConfig: generalConfig,
                 extraNodeTransformFactories: [
                   assignAttrsAtTag('svg', { focusable: 'false' }), adjustViewBox,
-                ].concat(theme === 'twotone' ? setDefaultColorAtPathTag('#333') : []),
-                stringify: theme === 'twotone' ? twotoneStringify : JSON.stringify,
+                ].concat(extraNodeTransformFactories || []),
+                stringify: stringify || JSON.stringify,
                 template: iconTemplate,
                 mapToInterpolate: ({ name, content }) => ({
-                    identifier: getIdentifier({ name, themeSuffix: upperFirst(theme) as ThemeTypeUpperCase }),
+                    identifier: getIdentifier({ name, themeSuffix: (themeSuffix || upperFirst(theme)) as ThemeTypeUpperCase }),
                     content,
                 }),
-                filename: ({ name }) => getIdentifier({ name, themeSuffix: upperFirst(theme) as ThemeTypeUpperCase }),
+                filename: ({ name }) => getIdentifier({ name, themeSuffix: (themeSuffix || upperFirst(theme)) as ThemeTypeUpperCase }),
             })
         )
     ),
