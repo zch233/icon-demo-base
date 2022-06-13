@@ -1,10 +1,16 @@
 {
     "name": "icon-base",
-    "version": "1.0.0",
+    "version": "0.0.1",
     "main": "index.js",
     "repository": "git@github.com:zch233/icon-demo1.git",
     "author": "zhangchao <529743595@qq.com>",
     "license": "MIT",
+    "files": [
+      "lib/*",
+      "es/*",
+      "inline-svg/*",
+      "inline-namespaced-svg/*"
+    ],
     "scripts": {
         "generate": "cross-env NODE_ENV=production gulp",
         "type-check": "tsc --noEmit",
@@ -12,7 +18,8 @@
         "build:lib": "tsc --project tsconfig.build.json --module commonjs --outDir lib",
         "build": "cross-env NODE_ENV=production && npm run build:es && npm run build:lib",
         "lint:prettier": "prettier --write --loglevel warn **/*",
-        "pre-commit:pretty": "pretty-quick --staged"
+        "pre-commit:pretty": "pretty-quick --staged",
+        "compile": "yarn generate && yarn build"
     },
     "devDependencies": {
         "@rgrove/parse-xml": "3.0.0",
