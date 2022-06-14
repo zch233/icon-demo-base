@@ -1,8 +1,7 @@
 import { assignAttrsAtTag } from '../index';
 import { TransformFactory } from '../../index';
 
-// version < antd@3.9
-const OLD_ICON_NAMES = [
+const EXTRA_ICON_NAMES = [
     'step-backward',
     'step-forward',
     'fast-backward',
@@ -25,8 +24,9 @@ const OLD_ICON_NAMES = [
     'shopping-cart',
     'safety',
     'medium-workmark',
+    'image',
 ];
 
 export const adjustViewBox: TransformFactory = assignAttrsAtTag('svg', ({ name }) => ({
-    viewBox: OLD_ICON_NAMES.includes(name) ? '0 0 1024 1024' : '64 64 896 896',
+    viewBox: EXTRA_ICON_NAMES.includes(name) ? '0 0 1024 1024' : '64 64 896 896', // 特殊图标不做裁剪调整
 }));

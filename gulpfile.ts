@@ -1,6 +1,6 @@
 import { series, parallel, src, dest } from 'gulp'; // series 是依次执行，parallel是并行执行
 import del from 'del';
-import { generalConfig, remainFillConfig } from './plugins/svgo/presets';
+import { generalConfig, remainFillConfig, colorfulConfig } from './plugins/svgo/presets';
 import { generateIcons } from './utils/generateIcons';
 import { generateEntry } from './utils/generateEntry';
 import { adjustViewBox, assignAttrsAtTag, setDefaultColorAtPathTag } from './plugins/svg2Definition/transforms';
@@ -31,7 +31,7 @@ const themesMap: ThemeMapType[] = [
         extraNodeTransformFactories: setDefaultColorAtPathTag('#333'),
         svgoConfig: remainFillConfig,
     },
-    { theme: 'color' },
+    { theme: 'color', svgoConfig: colorfulConfig },
 ];
 
 const iconTemplate = readFileSync(resolve(__dirname, './templates/icon.ts.ejs'), 'utf8');
