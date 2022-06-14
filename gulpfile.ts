@@ -13,7 +13,9 @@ import {twotoneStringify} from "./plugins/svg2Definition/stringify";
 import { TransformFactory } from './plugins/svg2Definition';
 import { OptimizeOptions } from 'svgo';
 
-const themesMap: {theme: ThemeType, themeSuffix?: string, stringify?: (value: any) => string, extraNodeTransformFactories?: TransformFactory, svgoConfig?:OptimizeOptions}[] = [
+export interface ThemeMapType {theme: ThemeType, themeSuffix?: string, stringify?: (value: any) => string, extraNodeTransformFactories?: TransformFactory, svgoConfig?:OptimizeOptions}
+
+const themesMap: ThemeMapType[] = [
   {theme: 'filled'},
   {theme: 'outlined'},
   {theme: 'twotone', themeSuffix: 'twoTone',stringify: twotoneStringify, extraNodeTransformFactories: setDefaultColorAtPathTag('#333'), svgoConfig: remainFillConfig},
