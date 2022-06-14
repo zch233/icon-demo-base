@@ -1,6 +1,6 @@
 import { series, parallel, src, dest } from 'gulp'; // series 是依次执行，parallel是并行执行
 import del from 'del';
-import { generalConfig } from './plugins/svgo/presets';
+import { generalConfig, remainFillConfig } from './plugins/svgo/presets';
 import { generateIcons } from './utils/generateIcons';
 import { generateEntry } from './utils/generateEntry';
 import {adjustViewBox, assignAttrsAtTag, setDefaultColorAtPathTag} from './plugins/svg2Definition/transforms';
@@ -11,13 +11,12 @@ import {IconDefinition, ThemeType, ThemeTypeUpperCase} from './templates/types';
 import {ExtractRegExp, generateInline} from "./utils/generateInline";
 import {twotoneStringify} from "./plugins/svg2Definition/stringify";
 import { TransformFactory } from './plugins/svg2Definition';
+import { OptimizeOptions } from 'svgo';
 
-const themes: ThemeType[] = ['filled', 'outlined', 'twotone', 'color'];
-
-const themesMap: {theme: ThemeType, themeSuffix?: string, stringify?: (value: any) => string, extraNodeTransformFactories?: TransformFactory}[] = [
+const themesMap: {theme: ThemeType, themeSuffix?: string, stringify?: (value: any) => string, extraNodeTransformFactories?: TransformFactory, svgoConfig?:OptimizeOptions}[] = [
   {theme: 'filled'},
   {theme: 'outlined'},
-  {theme: 'twotone', themeSuffix: 'twoTone',stringify: twotoneStringify, extraNodeTransformFactories: setDefaultColorAtPathTag('#333')},
+  {theme: 'twotone', themeSuffix: 'twoTone',stringify: twotoneStringify, extraNodeTransformFactories: setDefaultColorAtPathTag('#333'), svgoConfig: remainFillConfig},
   {theme: 'color'},
 ]
 
@@ -31,12 +30,12 @@ exports.default = series(
         function CopyFiles() {
             return src(['templates/*.ts']).pipe(dest('src')); // from 'templates/*.ts' toDir 'src'
         },
-        ...themesMap.map(({theme, themeSuffix, stringify, extraNodeTransformFactories}) =>
+        ...themesMap.map(({theme, themeSuffix, stringify, extraNodeTransformFactories, svgoConfig}) =>
             generateIcons({
                 theme,
                 from: [`svg/${theme}/*.svg`],
                 toDir: 'src/asn',
-                svgoConfig: generalConfig,
+                svgoConfig: svgoConfig || generalConfig,
                 extraNodeTransformFactories: [
                   assignAttrsAtTag('svg', { focusable: 'false' }), adjustViewBox,
                 ].concat(extraNodeTransformFactories || []),

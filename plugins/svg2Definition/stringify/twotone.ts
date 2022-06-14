@@ -13,15 +13,12 @@ const colorsReplacer = (icon: string) => {
   return fns.reduce((a,b) => b(a),icon)
 };
 
-const duplicate = <T>(n: T): [T, T] => [cloneDeep(n), cloneDeep(n)];
-
 const createFunctionStr = (content:string) => `function render(${__PRIMARY_COLOR__}, ${__SECONDARY_COLOR__}) { return ${content}; }`;
 
 export const twotoneStringify: StringifyFn = (iconData) => {
-  const iconDataRepeat = duplicate(iconData);
   const [hasPlaceholderContent, iconFunctionContent] = [
     (data: AbstractNodeDefinition) => JSON.stringify({...data, icon: __PLACEHOLDER__}),
     (data: AbstractNodeDefinition) => createFunctionStr(colorsReplacer(JSON.stringify(data.icon))),
-  ].map((fn,i) => fn(iconDataRepeat[i]))
+  ].map(fn => fn(cloneDeep(iconData)))
   return hasPlaceholderContent.replace(`"${__PLACEHOLDER__}"`, iconFunctionContent)
 };
