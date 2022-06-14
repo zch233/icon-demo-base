@@ -21,3 +21,4 @@ assets
 **/*.min.js
 *.ejs
 .idea
+.npmignore
