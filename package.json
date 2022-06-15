@@ -19,7 +19,7 @@
         "build:es": "tsc --project tsconfig.build.json --module esnext --outDir es",
         "build:lib": "tsc --project tsconfig.build.json --module commonjs --outDir lib",
         "build": "cross-env NODE_ENV=production && npm run build:es && npm run build:lib",
-        "lint:prettier": "prettier --write --loglevel warn **/*",
+        "lint:prettier": "prettier --write . --loglevel warn --ignore-unknown",
         "pre-commit:pretty": "pretty-quick --staged",
         "test": "ts-jest",
         "prepublishOnly": "yarn generate && yarn build",
