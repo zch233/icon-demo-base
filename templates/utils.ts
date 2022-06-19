@@ -21,7 +21,7 @@ export function renderIconDefinitionToSVGElement(icond: IconDefinition, options:
         const placeholders = options.placeholders || defaultColors;
         return renderAbstractNodeToSVGElement(icond.icon(placeholders.primaryColor, placeholders.secondaryColor), options);
     }
-    // fill, outline, color
+    // fill, outline, colorful
     return renderAbstractNodeToSVGElement(icond.icon, options);
 }
 

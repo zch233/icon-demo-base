@@ -12,5 +12,5 @@ export interface IconDefinition {
     icon: ((primaryColor: string, secondaryColor: string) => AbstractNode) | AbstractNode;
 }
 
-export type ThemeType = 'filled' | 'outlined' | 'twotone' | 'color';
-export type ThemeTypeUpperCase = 'Filled' | 'Outlined' | 'TwoTone' | 'Color';
+export type ThemeType = 'filled' | 'outlined' | 'twotone' | 'colorful';
+export type ThemeTypeUpperCase = 'Filled' | 'Outlined' | 'TwoTone' | 'Colorful';

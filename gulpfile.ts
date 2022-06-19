@@ -31,7 +31,7 @@ const themesMap: ThemeMapType[] = [
         extraNodeTransformFactories: setDefaultColorAtPathTag('#333'),
         svgoConfig: remainFillConfig,
     },
-    { theme: 'color', svgoConfig: colorfulConfig },
+    { theme: 'colorful', svgoConfig: colorfulConfig },
 ];
 
 const iconTemplate = readFileSync(resolve(__dirname, './templates/icon.ts.ejs'), 'utf8');
