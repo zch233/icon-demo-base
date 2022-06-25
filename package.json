@@ -23,7 +23,8 @@
         "pre-commit:pretty": "pretty-quick --staged",
         "test": "ts-jest",
         "prepublishOnly": "yarn generate && yarn build",
-        "prepare": "husky install"
+        "prepare": "husky install",
+        "digest": "node scripts/digest.mjs"
     },
     "devDependencies": {
         "@rgrove/parse-xml": "3.0.0",
@@ -40,6 +41,7 @@
         "@types/through2": "2.0.36",
         "cross-env": "7.0.3",
         "del": "^6.1.1",
+        "globby": "^13.1.2",
         "gulp": "4.0.2",
         "gulp-concat": "2.6.1",
         "gulp-header": "2.0.9",
