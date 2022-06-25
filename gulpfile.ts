@@ -26,7 +26,7 @@ const themesMap: ThemeMapType[] = [
     { theme: 'outlined' },
     {
         theme: 'twotone',
-        themeSuffix: 'twoTone',
+        themeSuffix: 'twotone',
         stringify: twotoneStringify,
         extraNodeTransformFactories: setDefaultColorAtPathTag('#333'),
         svgoConfig: remainFillConfig,
