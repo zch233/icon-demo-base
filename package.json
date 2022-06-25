@@ -1,6 +1,6 @@
 {
     "name": "icon-base",
-    "version": "0.0.6",
+    "version": "0.0.7",
     "sideEffects": false,
     "repository": "git@github.com:zch233/icon-demo1.git",
     "author": "zhangchao <529743595@qq.com>",
@@ -11,7 +11,8 @@
         "lib",
         "es",
         "inline-svg",
-        "inline-namespaced-svg"
+        "inline-namespaced-svg",
+        "scripts/digest.json"
     ],
     "scripts": {
         "generate": "cross-env NODE_ENV=production gulp --require ts-node/register/transpile-only",
